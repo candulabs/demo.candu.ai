@@ -4,6 +4,13 @@ const JS_NPM_URLS = [
   'https://unpkg.com/docsearch.js@2.4.1/dist/cdn/docsearch.min.js',
 ];
 
+const scriptHTML = `
+  window.canduClient = new Candu.Client({
+    clientToken: 'v5Qz2pCeYP',
+    userId: '190',
+  });
+`;
+
 export default class HTML extends React.Component {
   render() {
     return (
@@ -20,6 +27,8 @@ export default class HTML extends React.Component {
           />
           <link rel="icon" href="/favicon.ico" />
           {this.props.headComponents}
+          <script src="https://cdn.candu.ai/assets/candu-client.min.js" />
+          <script dangerouslySetInnerHTML={{__html: scriptHTML}} />
         </head>
         <body {...this.props.bodyAttributes}>
           <div
