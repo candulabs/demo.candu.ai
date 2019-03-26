@@ -8,6 +8,7 @@ const scriptHTML = `
   window.canduClient = new Candu.Client({
     clientToken: 'v5Qz2pCeYP',
     userId: '190',
+    secondaryColor: '#61dafb'
   });
 `;
 
