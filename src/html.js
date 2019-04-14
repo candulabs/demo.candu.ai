@@ -3,11 +3,54 @@ import React from 'react';
 const JS_NPM_URLS = [
   'https://unpkg.com/docsearch.js@2.4.1/dist/cdn/docsearch.min.js',
 ];
-
 const scriptHTML = `
+const hasStorage = () => window && window.localStorage;
+
+const makeId = length => {
+  let text = '';
+  let possible =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+
+  return text;
+};
+
+const get = key => () => {
+  if (hasStorage()) {
+    const value = window.localStorage.getItem(key);
+    if (value) {
+      try {
+        // fail gracefully in case a customer tampered with the localStorage
+        return JSON.parse(value);
+      } catch (e) {
+        return null;
+      }
+    }
+  }
+  return undefined;
+};
+
+const set = key => value => {
+  if (hasStorage() && value !== null && value !== undefined) {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  }
+};
+
+
+    const userKey = 'candu_demo_session_id';
+    let userId = get(userKey)();
+    if (!userId) {
+      userId = makeId(10);
+      set(userKey)(userId);
+    }
+
+
   window.canduClient = new Candu.Client({
     clientToken: 'v5Qz2pCeYP',
-    userId: '190',
+    userId,
     primaryColor: '#61dafb',
     secondaryColor: '#61dafb'
   });
